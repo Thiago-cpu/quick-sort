@@ -1,33 +1,16 @@
 "use client";
 
 import { Slider } from "@/components/ui/slider";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import useConfig from "../useConfig";
 import { useState } from "react";
 
-const ELEMENTS_DEFAULT = 10;
-
 export default function ElementsAmount() {
-  const searchParams = useSearchParams();
-  const elementsParam = Number(
-    searchParams.get("elements") ?? ELEMENTS_DEFAULT
-  );
-  const initialElements = isNaN(elementsParam)
-    ? ELEMENTS_DEFAULT
-    : elementsParam;
-
-  const [elements, setElements] = useState([
-    Math.max(Math.min(initialElements, 100), 3),
-  ]);
-  const pathname = usePathname();
-  const { replace } = useRouter();
+  const { elements, setElements } = useConfig();
+  const [elementState, setElementState] = useState([elements]);
 
   const handleValueCommit = (value: number[]) => {
     const [elemmentsCommited] = value;
-    const params = new URLSearchParams(searchParams);
-    params.set("elements", elemmentsCommited.toString());
-
-    replace(`${pathname}?${params.toString()}`);
+    setElements(elemmentsCommited);
   };
 
   return (
@@ -35,11 +18,11 @@ export default function ElementsAmount() {
       className="w-96"
       min={3}
       max={100}
-      value={elements}
-      onValueChange={setElements}
+      value={elementState}
+      onValueChange={setElementState}
       onValueCommit={handleValueCommit}
       step={1}
-      label={`Elements: ${elements}`}
+      label={`Elements: ${elementState}`}
     />
   );
 }
