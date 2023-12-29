@@ -40,7 +40,7 @@ export default function Home({
     .map(() => Math.floor(rng() * 500));
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 md:p-24 bg-background">
+    <main className="flex min-h-screen flex-col items-center p-12 md:p-24 bg-background gap-4">
       <ConfigToolbar />
       <Board heights={heights} />
       <PlayToolbar heights={heights} />
