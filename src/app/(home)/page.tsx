@@ -1,16 +1,20 @@
 import { redirect } from "next/navigation";
-import Toolbar from "./toolbar/toolbar";
+import ConfigToolbar from "./config-toolbar/config-toolbar";
 import { randomSeed } from "@/lib/utils";
+import Board from "./board";
+import PlayToolbar from "./play-toolbar";
 
-type SearchParams = {
-  seed?: string;
-  elements?: number;
+export type ConfigParams = {
+  seed: string;
+  elements: string;
 };
 
-const areValidSearchParams = (searchParams?: SearchParams) => {
-  if (!searchParams) return false;
-  if (!searchParams.seed || !searchParams.elements) return false;
-  const elements = Number(searchParams.elements);
+const areValidSearchParams = (
+  configParams?: Partial<ConfigParams>
+): configParams is ConfigParams => {
+  if (!configParams) return false;
+  if (!configParams.seed || !configParams.elements) return false;
+  const elements = Number(configParams.elements);
   if (isNaN(elements)) return false;
   if (elements > 100 || elements < 3) return false;
 
@@ -20,18 +24,22 @@ const areValidSearchParams = (searchParams?: SearchParams) => {
 export default function Home({
   searchParams,
 }: {
-  searchParams?: SearchParams;
+  searchParams?: Partial<ConfigParams>;
 }) {
-  const validSearchParams = areValidSearchParams(searchParams);
-  if (!validSearchParams) {
+  const validConfigParams = areValidSearchParams(searchParams);
+  if (!validConfigParams) {
     const defaultQueryParams = `seed=${randomSeed()}&elements=10`;
     return redirect(`/?${defaultQueryParams}`);
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 bg-background">
-      <Toolbar />
-      <div></div>
+    <main className="flex min-h-screen flex-col items-center p-12 md:p-24 bg-background">
+      <ConfigToolbar />
+      <Board
+        elements={Number(searchParams.elements)}
+        seed={searchParams.seed}
+      />
+      <PlayToolbar />
     </main>
   );
 }
