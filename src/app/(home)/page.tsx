@@ -3,6 +3,7 @@ import ConfigToolbar from "./config-toolbar/config-toolbar";
 import { randomSeed } from "@/lib/utils";
 import Board from "./board";
 import PlayToolbar from "./play-toolbar";
+import seedrandom from "seedrandom";
 
 export type ConfigParams = {
   seed: string;
@@ -31,15 +32,18 @@ export default function Home({
     const defaultQueryParams = `seed=${randomSeed()}&elements=10`;
     return redirect(`/?${defaultQueryParams}`);
   }
+  const elements = Number(searchParams.elements);
+  const rng = seedrandom(searchParams.seed);
+
+  const heights = new Array(elements)
+    .fill(0)
+    .map(() => Math.floor(rng() * 500));
 
   return (
     <main className="flex min-h-screen flex-col items-center p-12 md:p-24 bg-background">
       <ConfigToolbar />
-      <Board
-        elements={Number(searchParams.elements)}
-        seed={searchParams.seed}
-      />
-      <PlayToolbar />
+      <Board heights={heights} />
+      <PlayToolbar heights={heights} />
     </main>
   );
 }
