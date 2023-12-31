@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import ConfigToolbar from "./config-toolbar/config-toolbar";
+import TopToolbar from "./toolbar/top-toolbar";
 import { randomSeed } from "@/lib/utils";
 import Board from "./board";
-import PlayToolbar from "./play-toolbar";
+import BottomToolbar from "./toolbar/bottom-toolbar";
 import seedrandom from "seedrandom";
 
 export type ConfigParams = {
@@ -40,10 +40,10 @@ export default function Home({
     .map(() => Math.floor(rng() * 500));
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 md:p-24 bg-background gap-4">
-      <ConfigToolbar />
+    <main className="flex min-h-screen flex-col items-center px-12 py-16 2xl:px-24 bg-background gap-4">
+      <TopToolbar />
       <Board heights={heights} />
-      <PlayToolbar heights={heights} />
+      <BottomToolbar heights={heights} />
     </main>
   );
 }
