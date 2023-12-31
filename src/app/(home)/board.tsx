@@ -10,10 +10,14 @@ export default function Board({ heights }: BoardProps) {
   return (
     <div className="grow flex items-center self-stretch">
       <div
-        className={cn("flex items-end justify-center grow gap-4 h-[500px]", {
-          "gap-2": heights.length > 50,
-          "gap-1": heights.length > 75,
-        })}
+        className={cn(
+          "flex items-end justify-center grow gap-1 sm:gap-4 h-[500px]",
+          {
+            "gap-0": heights.length > 25,
+            "sm:gap-2": heights.length > 50,
+            "sm:gap-1": heights.length > 75,
+          }
+        )}
       >
         {heights.map((height, i) => (
           <div
