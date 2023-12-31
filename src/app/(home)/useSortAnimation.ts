@@ -2,9 +2,14 @@ import anime, { AnimeInstance } from "animejs";
 import { useEffect, useRef, useState } from "react";
 import useConfetti from "./useConfetti";
 
-export default function useSortAnimation({ heights }: { heights: number[] }) {
+type SortAnimationProps = {
+  heights: number[];
+};
+
+export default function useSortAnimation({ heights }: SortAnimationProps) {
   const [playing, setPlaying] = useState(false);
   const animations = useRef<AnimeInstance[]>([]);
+  const durationRef = useRef(250);
   const { fire } = useConfetti();
 
   const loadAnimation = async () => {
@@ -32,7 +37,7 @@ export default function useSortAnimation({ heights }: { heights: number[] }) {
           targets: `#element-${from}`,
           translateX: {
             value: `+=${distance}px`,
-            duration: 250,
+            duration: durationRef.current,
           },
 
           easing: "easeInOutSine",
@@ -41,7 +46,7 @@ export default function useSortAnimation({ heights }: { heights: number[] }) {
           targets: `#element-${to}`,
           translateX: {
             value: `-=${distance}px`,
-            duration: 250,
+            duration: durationRef.current,
           },
           easing: "easeInOutSine",
         });
@@ -77,5 +82,5 @@ export default function useSortAnimation({ heights }: { heights: number[] }) {
 
   useEffect(() => reset, [heights]);
 
-  return { togglePlay, playing };
+  return { togglePlay, playing, durationRef };
 }
