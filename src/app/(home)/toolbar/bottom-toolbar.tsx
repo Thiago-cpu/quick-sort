@@ -8,7 +8,7 @@ export default function BottomToolbar({ heights }: { heights: number[] }) {
   const { togglePlay, playing } = useSortAnimation({ heights });
   const Icon = playing ? Pause : Play;
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-[440px] gap-4">
+    <div className="flex flex-col sm:flex-row w-full max-w-[440px] gap-4">
       <SeedRandomizer />
       <Button
         variant="outline"
